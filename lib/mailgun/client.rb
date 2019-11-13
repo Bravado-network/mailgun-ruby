@@ -104,7 +104,9 @@ module Mailgun
       response = @http_client[resource_path].post(data, headers)
       Response.new(response)
     rescue => err
-      raise communication_error err
+      if err.to != "400 Bad Request: 'to' parameter is not a valid address. please check documentation"
+        raise communication_error err
+      end
     end
 
     # Generic Mailgun GET Handler
