@@ -104,7 +104,9 @@ module Mailgun
       response = @http_client[resource_path].post(data, headers)
       Response.new(response)
     rescue => err
-      if err.to != "400 Bad Request: 'to' parameter is not a valid address. please check documentation"
+      if err.respond_to?(:response) && JSON.parse(err.response)['message'] == "'to' parameter is not a valid address. please check documentation"
+        err.response
+      else
         raise communication_error err
       end
     end
