@@ -126,6 +126,8 @@ module Railgun
 
     # recipient variables
     message['recipient-variables'] = mail.mailgun_recipient_variables.to_json if mail.mailgun_recipient_variables
+    # set template if available
+    message['template'] = mail.mailgun_template if mail.mailgun_template
 
     # reject blank values
     message.delete_if do |k, v|
